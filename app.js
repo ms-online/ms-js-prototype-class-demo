@@ -26,6 +26,7 @@ UI.prototype.addCourseToList = function (course) {
 
 // 弹窗提醒
 UI.prototype.showAlert = function (message, className) {
+  console.log("test");
   // 创建div
   const div = document.createElement("div");
   // 添加类
