@@ -5,15 +5,15 @@ function Course(title, link, isbn) {
   this.isbn = isbn;
 }
 
-// UI Constructor
+// UI 构造函数
 function UI() {}
 
-// Add Book To List
+// 添加课程
 UI.prototype.addCourseToList = function (course) {
   const list = document.getElementById("course-list");
-  // Create tr element
+  // 创建
   const row = document.createElement("tr");
-  // Insert cols
+  // 插入
   row.innerHTML = `
       <td>${course.title}</td>
       <td><a href="${course.link}">查看</a></td>
@@ -24,30 +24,23 @@ UI.prototype.addCourseToList = function (course) {
   list.appendChild(row);
 };
 
-// Clear Fields
 UI.prototype.clearFields = function () {
   document.getElementById("title").value = "";
   document.getElementById("link").value = "";
   document.getElementById("isbn").value = "";
 };
 
-// Event Listeners
 document.getElementById("course-form").addEventListener("submit", function (e) {
-  // Get form values
   const title = document.getElementById("title").value,
     link = document.getElementById("link").value,
     isbn = document.getElementById("isbn").value;
 
-  // Instantiate book
   const course = new Course(title, link, isbn);
 
-  // Instantiate UI
   const ui = new UI();
 
-  // Add book to list
   ui.addCourseToList(course);
 
-  // Clear fields
   ui.clearFields();
 
   e.preventDefault();
