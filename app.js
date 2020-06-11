@@ -45,6 +45,14 @@ UI.prototype.showAlert = function (message, className) {
   }, 3000);
 };
 
+// 删除
+UI.prototype.deleteCourse = function (target, ui) {
+  if (target.className === "delete") {
+    target.parentElement.parentElement.remove();
+    ui.showAlert("删除成功", "success");
+  }
+};
+
 // 清除
 UI.prototype.clearFields = function () {
   document.getElementById("title").value = "";
@@ -52,7 +60,7 @@ UI.prototype.clearFields = function () {
   document.getElementById("isbn").value = "";
 };
 
-// 事件
+// 添加事件
 document.getElementById("course-form").addEventListener("submit", function (e) {
   // 获取表单值
   const title = document.getElementById("title").value,
@@ -81,4 +89,13 @@ document.getElementById("course-form").addEventListener("submit", function (e) {
   }
 
   e.preventDefault();
+});
+
+// 删除事件
+document.getElementById("course-list").addEventListener("click", function (e) {
+  // 初始化 UI
+  const ui = new UI();
+
+  // 删除
+  ui.deleteCourse(e.target, ui);
 });
