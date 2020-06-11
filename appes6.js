@@ -56,6 +56,53 @@ class UI {
   }
 }
 
+class Store {
+  static getCourses() {
+    let courses;
+    if (localStorage.getItem("courses") === null) {
+      courses = [];
+    } else {
+      courses = JSON.parse(localStorage.getItem("courses"));
+    }
+
+    return courses;
+  }
+
+  static displayCourses() {
+    const courses = Store.getCourses();
+
+    courses.forEach(function (course) {
+      const ui = new UI();
+
+      // 添加
+      ui.addCourseToList(course);
+    });
+  }
+
+  static addCourse(course) {
+    const courses = Store.getCourses();
+
+    courses.push(course);
+
+    localStorage.setItem("courses", JSON.stringify(courses));
+  }
+
+  static removeCourse(isbn) {
+    const courses = Store.getCourses();
+
+    courses.forEach(function (course, index) {
+      if (course.isbn === isbn) {
+        courses.splice(index, 1);
+      }
+    });
+
+    localStorage.setItem("courses", JSON.stringify(courses));
+  }
+}
+
+// DOM加载事件
+document.addEventListener("DOMContentLoaded", Store.displayCourses);
+
 // 添加事件
 document.getElementById("course-form").addEventListener("submit", function (e) {
   // 获取表单值
@@ -77,6 +124,9 @@ document.getElementById("course-form").addEventListener("submit", function (e) {
     // 添加课程
     ui.addCourseToList(course);
 
+    // 加入缓存
+    Store.addCourse(course);
+
     // 弹窗提醒
     ui.showAlert("添加成功", "success");
 
@@ -94,4 +144,8 @@ document.getElementById("course-list").addEventListener("click", function (e) {
 
   // 删除
   ui.deleteCourse(e.target, ui);
+
+  // console.log(e.target.parentElement.previousElementSibling.textContent);
+  // 删除缓存
+  Store.removeCourse(e.target.parentElement.previousElementSibling.textContent);
 });
